@@ -71,16 +71,16 @@ def request_model(input_text, temperature, top_p, image_prompt, result_previous)
     return "", result_text
 
 
-DESCRIPTION = '''# <a href=".">XRAY看胸片机器人演示</a>'''
+DESCRIPTION = '''# <a href=".">企友通看胸片医学助手演示</a>'''
 
 NOTES = 'This app is adapted from <a href="https://github.com/WangRongsheng/XrayGLM">https://github.com/WangRongsheng/XrayGLM</a>. It would be recommended to check out the repo if you want to see the detail of our model and training process.'
 
 
 def clear_fn(value):
-    return "", [("", "Hi, What do you want to know about this image?")], None
+    return "", [("", "")], None
 
 def clear_fn2(value):
-    return [("", "Hi, What do you want to know about this image?")]
+    return [("", "")]
 
 
 def main(args):
