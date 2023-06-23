@@ -1,4 +1,6 @@
 #!/usr/bin/env python
+import os
+os.environ['SAT_HOME'] = '/data/XrayGLM'
 
 import gradio as gr
 from PIL import Image
@@ -124,7 +126,7 @@ def main(args):
             with gr.Column(scale=5.5):
                 result_text = gr.components.Chatbot(label='对话历史', value=[("", "请描述这张胸片")]).style(height=750)
 
-        gr.Markdown(NOTES)
+        #gr.Markdown(NOTES)
 
         print(gr.__version__)
         run_button.click(fn=request_model,inputs=[input_text, temperature, top_p, image_prompt, result_text],
@@ -137,8 +139,7 @@ def main(args):
 
         print(gr.__version__)
 
-    demo.queue(concurrency_count=10)
-    demo.launch(share=args.share)
+    demo.queue(concurrency_count=10).launch(share=False)
 
 
 if __name__ == '__main__':
