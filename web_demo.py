@@ -69,10 +69,7 @@ def request_model(input_text, temperature, top_p, image_prompt, result_previous)
     return "", result_text
 
 
-DESCRIPTION = '''# <a href="https://github.com/WangRongsheng/XrayGLM">XRAY-GLM</a>'''
-
-MAINTENANCE_NOTICE1 = 'Hint 1: If the app report "Something went wrong, connection error out", please turn off your proxy and retry.\nHint 2: If you upload a large size of image like 10MB, it may take some time to upload and process. Please be patient and wait.'
-MAINTENANCE_NOTICE2 = '提示1: 如果应用报了“Something went wrong, connection error out”的错误，请关闭代理并重试。\n提示2: 如果你上传了很大的图片，比如10MB大小，那将需要一些时间来上传和处理，请耐心等待。'
+DESCRIPTION = '''# <a href=".">XRAY看胸片机器人演示</a>'''
 
 NOTES = 'This app is adapted from <a href="https://github.com/WangRongsheng/XrayGLM">https://github.com/WangRongsheng/XrayGLM</a>. It would be recommended to check out the repo if you want to see the detail of our model and training process.'
 
@@ -105,27 +102,27 @@ def main(args):
 
     model.add_mixin('auto-regressive', CachedAutoregressiveMixin())
 
-    tokenizer = AutoTokenizer.from_pretrained("THUDM/chatglm-6b", trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained("/data/chatglm-6b", trust_remote_code=True)
 
     with gr.Blocks(css='style.css') as demo:
         gr.Markdown(DESCRIPTION)
         with gr.Row():
             with gr.Column(scale=4.5):
                 with gr.Group():
-                    input_text = gr.Textbox(label='Input Text', placeholder='Please enter text prompt below and press ENTER.')
+                    input_text = gr.Textbox(label='输入框', placeholder='请输入问题')
                     with gr.Row():
-                        run_button = gr.Button('Generate')
-                        clear_button = gr.Button('Clear')
+                        run_button = gr.Button('发送')
+                        clear_button = gr.Button('清除')
 
-                    image_prompt = gr.Image(type="filepath", label="Image Prompt", value=None)
+                    image_prompt = gr.Image(type="filepath", label="上传胸片", value=None)
                 with gr.Row():
-                    temperature = gr.Slider(maximum=1, value=0.8, minimum=0, label='Temperature')
-                    top_p = gr.Slider(maximum=1, value=0.4, minimum=0, label='Top P')
-                with gr.Group():
-                    with gr.Row():
-                        maintenance_notice = gr.Markdown(MAINTENANCE_NOTICE1)
+                    temperature = gr.Slider(maximum=1, value=0.8, minimum=0, label='Temperature', visible=False)
+                    top_p = gr.Slider(maximum=1, value=0.4, minimum=0, label='Top P', visible=False)
+                # with gr.Group():
+                #     with gr.Row():
+                #         maintenance_notice = gr.Markdown(MAINTENANCE_NOTICE1)
             with gr.Column(scale=5.5):
-                result_text = gr.components.Chatbot(label='Multi-round conversation History', value=[("", "Hi, What do you want to know about this image?")]).style(height=550)
+                result_text = gr.components.Chatbot(label='对话历史', value=[("", "请描述这张胸片")]).style(height=750)
 
         gr.Markdown(NOTES)
 
