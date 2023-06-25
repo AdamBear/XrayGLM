@@ -98,12 +98,21 @@ def main(args):
                         run_button = gr.Button('发送')
                         clear_button = gr.Button('清除')
 
+                    gr.Examples(label="示例胸片", examples=[
+                        "./xray_images/5_1.png",
+                        "./xray_images/218_1.png",
+                        "./xray_images/2201_1.png",
+                        "./xray_images/1329_1.png",
+                        "./xray_images/1668_1.png",
+                        "./xray_images/22_1.png",
+                        "./xray_images/38_2.png",
+                    ],
+                                inputs=image_prompt, outputs=None, fn=clear_fn2, cache_examples=False)
                 with gr.Row():
                     temperature = gr.Slider(maximum=1, value=0.8, minimum=0, label='Temperature', visible=False)
                     top_p = gr.Slider(maximum=1, value=0.4, minimum=0, label='Top P', visible=False)
-                # with gr.Group():
-                #     with gr.Row():
-                #         maintenance_notice = gr.Markdown(MAINTENANCE_NOTICE1)
+
+
             with gr.Column(scale=5.5):
                 result_text = gr.components.Chatbot(label='对话历史', value=[("", "请描述这张胸片")]).style(height=750)
 
@@ -118,14 +127,7 @@ def main(args):
         image_prompt.upload(fn=clear_fn2, inputs=clear_button, outputs=[result_text])
         image_prompt.clear(fn=clear_fn2, inputs=clear_button, outputs=[result_text])
 
-        gr.Examples(label="示例胸片", examples=[
-            "./xray_images/5_1.png",
-            "./xray_images/218_1.png",
-            "./xray_images/2201_1.png",
-            "./xray_images/1329_1.png",
-            "./xray_images/1668_1.png",
-        ],
-            inputs=image_prompt, outputs=[result_text], fn=clear_fn2, cache_examples=False)
+
 
 
     # load model
