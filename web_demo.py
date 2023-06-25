@@ -146,7 +146,7 @@ def main(args):
             "/data/xray_images/1329_1.png",
             "/data/xray_images/1668_1.png",
         ],
-            inputs=["请描述这张胸片", temperature, top_p, image_prompt, result_text], outputs=[input_text, result_text], fn=request_model, cache_examples=True)
+            inputs=image_prompt, outputs=[result_text], fn=clear_fn2, cache_examples=True)
 
 
 
