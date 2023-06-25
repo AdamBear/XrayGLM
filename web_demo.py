@@ -92,12 +92,11 @@ def main(args):
         with gr.Row():
             with gr.Column(scale=4.5):
                 with gr.Group():
-                    input_text = gr.Textbox(label='输入框', placeholder='请输入问题')
+                    image_prompt = gr.Image(type="filepath", label="上传胸片", value=None)
+                    input_text = gr.Textbox(label='输入框', placeholder='请输入问题', value="请描述这张胸片")
                     with gr.Row():
                         run_button = gr.Button('发送')
                         clear_button = gr.Button('清除')
-
-                    image_prompt = gr.Image(type="filepath", label="上传胸片", value=None)
 
                 with gr.Row():
                     temperature = gr.Slider(maximum=1, value=0.8, minimum=0, label='Temperature', visible=False)
@@ -119,13 +118,12 @@ def main(args):
         image_prompt.upload(fn=clear_fn2, inputs=clear_button, outputs=[result_text])
         image_prompt.clear(fn=clear_fn2, inputs=clear_button, outputs=[result_text])
 
-        gr.Markdown("##示例胸片")
-        gr.Examples(examples=[
-            "/data/xray_images/5_1.png",
-            "/data/xray_images/218_1.png",
-            "/data/xray_images/2201_1.png",
-            "/data/xray_images/1329_1.png",
-            "/data/xray_images/1668_1.png",
+        gr.Examples(label="示例胸片", examples=[
+            "./xray_images/5_1.png",
+            "./xray_images/218_1.png",
+            "./xray_images/2201_1.png",
+            "./xray_images/1329_1.png",
+            "./xray_images/1668_1.png",
         ],
             inputs=image_prompt, outputs=[result_text], fn=clear_fn2, cache_examples=False)
 
