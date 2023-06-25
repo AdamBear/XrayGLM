@@ -117,6 +117,7 @@ def main(args):
                         clear_button = gr.Button('清除')
 
                     image_prompt = gr.Image(type="filepath", label="上传胸片", value=None)
+
                 with gr.Row():
                     temperature = gr.Slider(maximum=1, value=0.8, minimum=0, label='Temperature', visible=False)
                     top_p = gr.Slider(maximum=1, value=0.4, minimum=0, label='Top P', visible=False)
@@ -136,6 +137,18 @@ def main(args):
         clear_button.click(fn=clear_fn, inputs=clear_button, outputs=[input_text, result_text, image_prompt])
         image_prompt.upload(fn=clear_fn2, inputs=clear_button, outputs=[result_text])
         image_prompt.clear(fn=clear_fn2, inputs=clear_button, outputs=[result_text])
+
+        gr.Markdown("## Image Examples")
+        gr.Examples(examples=[
+            "/data/xray_images/5_1.jpg",
+            "/data/xray_images/218_1.jpg",
+            "/data/xray_images/2201_1.jpg",
+            "/data/xray_images/1329_1.jpg",
+            "/data/xray_images/1668_1.jpg",
+        ],
+            input=image_prompt, outputs=[result_text], fn=clear_fn2, cache_examples=True)
+
+
 
         print(gr.__version__)
 
