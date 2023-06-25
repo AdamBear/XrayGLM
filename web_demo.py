@@ -85,26 +85,7 @@ def clear_fn2(value):
 
 def main(args):
     global model, tokenizer
-    # load model
-    model, model_args = AutoModel.from_pretrained(
-        args.from_pretrained,
-        args=argparse.Namespace(
-        fp16=True,
-        skip_init=True,
-        use_gpu_initialization=True if (torch.cuda.is_available() and args.quant is None) else False,
-        device='cuda' if (torch.cuda.is_available() and args.quant is None) else 'cpu',
-    ))
-    model = model.eval()
 
-    if args.quant:
-        quantize(model.transformer, args.quant)
-    
-    if torch.cuda.is_available():
-        model = model.cuda()
-
-    model.add_mixin('auto-regressive', CachedAutoregressiveMixin())
-
-    tokenizer = AutoTokenizer.from_pretrained("/data/chatglm-6b", trust_remote_code=True)
 
     with gr.Blocks(css='style.css') as demo:
         gr.Markdown(DESCRIPTION)
@@ -149,8 +130,28 @@ def main(args):
             inputs=image_prompt, outputs=[result_text], fn=clear_fn2, cache_examples=True)
 
 
+    # load model
+    model, model_args = AutoModel.from_pretrained(
+        args.from_pretrained,
+        args=argparse.Namespace(
+            fp16=True,
+            skip_init=True,
+            use_gpu_initialization=True if (torch.cuda.is_available() and args.quant is None) else False,
+            device='cuda' if (torch.cuda.is_available() and args.quant is None) else 'cpu',
+        ))
+    model = model.eval()
 
-        print(gr.__version__)
+    if args.quant:
+        quantize(model.transformer, args.quant)
+
+    if torch.cuda.is_available():
+        model = model.cuda()
+
+    model.add_mixin('auto-regressive', CachedAutoregressiveMixin())
+
+    tokenizer = AutoTokenizer.from_pretrained("/data/chatglm-6b", trust_remote_code=True)
+
+    print(gr.__version__)
 
     demo.queue(concurrency_count=10).launch(share=False)
 
