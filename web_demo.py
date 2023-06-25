@@ -132,21 +132,21 @@ def main(args):
         print(gr.__version__)
         run_button.click(fn=request_model,inputs=[input_text, temperature, top_p, image_prompt, result_text],
                          outputs=[input_text, result_text])
-        input_text.submit(fn=request_model,inputs=[input_text, temperature, top_p, image_prompt, result_text],
+        input_text.submit(fn=request_model, inputs=[input_text, temperature, top_p, image_prompt, result_text],
                          outputs=[input_text, result_text])
         clear_button.click(fn=clear_fn, inputs=clear_button, outputs=[input_text, result_text, image_prompt])
         image_prompt.upload(fn=clear_fn2, inputs=clear_button, outputs=[result_text])
         image_prompt.clear(fn=clear_fn2, inputs=clear_button, outputs=[result_text])
 
-        gr.Markdown("## Image Examples")
+        gr.Markdown("##示例胸片")
         gr.Examples(examples=[
-            "/data/xray_images/5_1.jpg",
-            "/data/xray_images/218_1.jpg",
-            "/data/xray_images/2201_1.jpg",
-            "/data/xray_images/1329_1.jpg",
-            "/data/xray_images/1668_1.jpg",
+            "/data/xray_images/5_1.png",
+            "/data/xray_images/218_1.png",
+            "/data/xray_images/2201_1.png",
+            "/data/xray_images/1329_1.png",
+            "/data/xray_images/1668_1.png",
         ],
-            inputs=image_prompt, outputs=[result_text], fn=clear_fn2, cache_examples=True)
+            inputs=["请描述这张胸片", temperature, top_p, image_prompt, result_text], outputs=[input_text, result_text], fn=request_model, cache_examples=True)
 
 
 
