@@ -77,10 +77,10 @@ NOTES = 'This app is adapted from <a href="https://github.com/WangRongsheng/Xray
 
 
 def clear_fn(value):
-    return "", [("", "")], None
+    return "请描述这张胸片", [("", "")], None
 
 def clear_fn2(value):
-    return [("", "请描述这张胸片", "")]
+    return [("", "", "")]
 
 
 def main(args):
@@ -107,7 +107,7 @@ def main(args):
                         "./xray_images/22_1.png",
                         "./xray_images/38_2.png",
                     ],
-                                inputs=image_prompt, outputs=[input_text, None], fn=clear_fn2, cache_examples=False)
+                                inputs=image_prompt, outputs=[input_text, None, None], fn=clear_fn, cache_examples=False)
                 with gr.Row():
                     temperature = gr.Slider(maximum=1, value=0.8, minimum=0, label='Temperature', visible=False)
                     top_p = gr.Slider(maximum=1, value=0.4, minimum=0, label='Top P', visible=False)
